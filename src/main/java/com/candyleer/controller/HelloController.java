@@ -8,6 +8,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * @author lican
@@ -26,6 +30,29 @@ public class HelloController {
         System.out.println(request);
         System.out.println(response);
         return "json";
+    }
+
+    @RequestMapping("http")
+    @ResponseBody
+    public String http() throws Exception {
+        URL obj = new URL("http://www.baidu.com");
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+
+        int responseCode = con.getResponseCode();
+        System.out.println("Response Code : " + responseCode);
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        return response.toString();
     }
 
 }
