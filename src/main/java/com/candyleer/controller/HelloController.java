@@ -8,6 +8,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * @author lican
@@ -28,4 +30,19 @@ public class HelloController {
         return "json";
     }
 
+    @RequestMapping("test")
+    @ResponseBody
+    public String test() throws Exception {
+        return 200 + "";
+
+    }
+
+    @RequestMapping("http")
+    @ResponseBody
+    public String http() throws Exception {
+        URL url = new URL("http://localhost:8080/test");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        return connection.getResponseCode() + "";
+
+    }
 }
